@@ -1,45 +1,48 @@
+# REST Application for Managing Accounts and Transactions
 
 This REST application was created to manage Accounts and Transactions.
 
 ## Technologies
-- Java 11
+- Java 17
 - Maven
-- Spring Boot
+- Spring Boot 3.3.1
 - Docker
 - Docker-Compose
-- Postgres
+- PostgreSQL
 - Flyway
 - Swagger
-
+- RestAssured (for API testing)
 
 ## Getting Started
-```SHELL
-> git clone https://github.com/ThiagoDotto/transactions-gismo-challenge
+
+To get started with the project, clone the repository:
+
+```shell
+git clone https://github.com/ThiagoDotto/transactions-gismo-challenge
 ```
 
-### Running with docker
-___
+## Running with Docker
+To run the project locally using Docker, execute:
 
-Para execultar o projeto localmente é preciso execultar via docker. 
-Ele irá subir 2 containers contendo,
-Postrgress execultando na porta 5432 e a aplicação na porta 8081.
-    
-Para subir os containers vamos acessar via console a pasta onde o projeto está localizado e execultar:
+```shell 
+./start.sh 
 ```
-docker-compose build
-```
-```
-docker-compose up
-```
+This will build and start the application with all necessary services.
 
-## Running Tests
-Apois o docker subir. Podemos exeultar os testes com o comando:
+Running Tests
+After the Docker containers are up and running, you can execute the tests with the following command:
 
-```SHELL
-> ./mvnw test
+```shell
+./mvnw test
 ```
 
-- When the project is up you can see the endpoints documented here: http://localhost:8080/swagger-ui/index.html
+This will run both unit and integration tests.
+
+## API Documentation
+
+Once the project is up and running, you can access the API documentation at:
+
+http://localhost:8080/swagger-ui/index.html
 
 ### Account Endpoints:
 - To create an account: POST `/accounts`

@@ -1,7 +1,7 @@
 echo '═══════════════════'
 echo '# CONSTRUINDO JAR #'
 echo '═══════════════════'
-./mvnw clean install -U
+./mvnw clean -Dmaven.test.skip install -U
 
 echo '═══════════════════════'
 echo '# REMOVENDO CONTAINER #'
