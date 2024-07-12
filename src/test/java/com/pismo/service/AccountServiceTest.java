@@ -2,11 +2,13 @@ package com.pismo.service;
 
 import com.pismo.resource.dto.AccountDTO;
 import com.pismo.model.Account;
+import com.pismo.resource.exception.BusinessError;
 import com.pismo.resource.exception.PismoException;
 import com.pismo.service.mapper.AccountMapper;
 import com.pismo.service.repository.AccountRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -53,14 +55,12 @@ class AccountServiceTest {
         AccountDTO accountDTO = new AccountDTO(1234567890L);
 
         when(accountRepository.save(any())).thenThrow(DataIntegrityViolationException.class);
+        
+        PismoException pismoException = assertThrows(
+                PismoException.class,
+                () -> accountService.save(accountDTO));
 
-        IllegalArgumentException illegalArgumentException = assertThrows(
-                IllegalArgumentException.class,
-                () -> accountService.save(accountDTO),
-                "duplicate key value violates unique constraint"
-        );
-
-        assertTrue(illegalArgumentException.getMessage().contains("Error saving account"));
+        assertEquals(pismoException.getMessage(), BusinessError.NAO_FOI_POSSIVEL_SALVAR_A_CONTA.getErrorMessage());
         verify(accountRepository, times(1)).save(any());
     }
 

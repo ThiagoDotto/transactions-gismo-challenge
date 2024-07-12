@@ -4,15 +4,19 @@ import com.pismo.resource.dto.TransactionDTO;
 import com.pismo.model.Account;
 import com.pismo.model.Operation;
 import com.pismo.model.Transaction;
+import com.pismo.resource.exception.BusinessError;
+import com.pismo.resource.exception.PismoException;
 import com.pismo.service.repository.AccountRepository;
 import com.pismo.service.repository.OperationRepository;
 import com.pismo.service.repository.TransactionRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class TransactionService {
 
@@ -20,31 +24,21 @@ public class TransactionService {
     private final AccountRepository accountRepository;
     private final OperationRepository operationRepository;
 
-    @Autowired
-    public TransactionService(TransactionRepository transactionRepository, AccountRepository accountRepository,
-                               OperationRepository operationRepository) {
-
-        this.transactionRepository = transactionRepository;
-        this.accountRepository = accountRepository;
-        this.operationRepository = operationRepository;
-    }
-
     @Transactional
-    public void save(TransactionDTO transactionDTO) {
-        Optional<Account> optionalAccount = accountRepository.findById(transactionDTO.accountId());
-        Optional<Operation> operationOptional = operationRepository.findById(transactionDTO.operationId());
+    public void save(TransactionDTO transactionDTO) throws PismoException {
 
-        if (optionalAccount.isPresent() && operationOptional.isPresent()) {
-            Account account = optionalAccount.get();
-            Operation operation = operationOptional.get();
+        Account account = accountRepository.findById(transactionDTO.accountId()).orElseThrow(
+                () -> new PismoException(BusinessError.CONTA_NAO_ENCONTRADA));
 
-            Transaction transactionEntity = new Transaction();
-            transactionEntity.setAccount(account);
-            transactionEntity.setOperation(operation);
-            transactionEntity.setAmount(CalculateSignValueService
-                    .exec(transactionEntity.getOperation(), transactionDTO.amount()));
+        Operation operation = operationRepository.findById(transactionDTO.operationId())
+                .orElseThrow(() -> new PismoException(BusinessError.OPERACAO_NAO_ENCONTRADA));
 
-            transactionRepository.save(transactionEntity);
-        }
+        Transaction transactionEntity = new Transaction();
+        transactionEntity.setAccount(account);
+        transactionEntity.setOperation(operation);
+        transactionEntity.setAmount(CalculateSignValueService
+                .exec(transactionEntity.getOperation(), transactionDTO.amount()));
+
+        transactionRepository.save(transactionEntity);
     }
 }

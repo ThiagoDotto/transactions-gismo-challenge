@@ -4,6 +4,7 @@ import com.pismo.resource.dto.TransactionDTO;
 import com.pismo.model.Account;
 import com.pismo.model.Operation;
 import com.pismo.model.Transaction;
+import com.pismo.resource.exception.PismoException;
 import com.pismo.service.repository.AccountRepository;
 import com.pismo.service.repository.OperationRepository;
 import com.pismo.service.repository.TransactionRepository;
@@ -38,7 +39,7 @@ class TransactionServiceTest {
     }
 
     @Test
-    void shouldSaveNewTransaction() {
+    void shouldSaveNewTransaction() throws PismoException {
 
         Account account = new Account();
         account.setId(10);
@@ -52,8 +53,12 @@ class TransactionServiceTest {
         transaction.setAccount(account);
         transaction.setAmount(new BigDecimal("520.25"));
 
+        Operation operation = new Operation();
+        operation.setOperationType("PAGAMENTO");
+        operation.setId(1);
+
         when(accountRepository.findById(any())).thenReturn(Optional.of(account));
-        when(operationRepository.findById(any())).thenReturn(Optional.of(new Operation()));
+        when(operationRepository.findById(any())).thenReturn(Optional.of(operation));
 
         transactionService.save(transactionDTO);
 

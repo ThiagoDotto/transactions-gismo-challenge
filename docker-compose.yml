@@ -9,6 +9,13 @@ services:
       POSTGRES_PASSWORD: admin
     ports:
       - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U db" ]
+      interval: 5s
+      timeout: 5s
+      retries: 6
+    networks:
+      - backend-app
   test:
     image: postgres:latest
     container_name: postgres-test
@@ -18,13 +25,21 @@ services:
       POSTGRES_PASSWORD: admin
     ports:
       - "5433:5432"
+    networks:
+      - backend-app
   app:
     build: .
-    environment:
-      SPRING_PROFILES_ACTIVE: default
+    container_name: backend-pismo
     ports:
-      - "8081:8081"
+      - "8080:8080"
+    environment:
+      - "SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/contas"
+      - "TZ=America/Sao_Paulo"
+    networks:
+      - backend-app
     depends_on:
-      - db
-      - test
-    restart: on-failure
+      db:
+        condition: service_healthy
+networks:
+  backend-app:
+    driver: bridge

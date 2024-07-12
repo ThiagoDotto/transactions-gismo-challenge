@@ -1,4 +1,6 @@
 FROM openjdk:17-jdk
 
-COPY target/pismo-transacoes-0.0.1-SNAPSHOT.jar /app/app.jar
-CMD ["java", "-jar", "/app/app.jar"]
+EXPOSE 8080
+ARG JAR_FILE=target/transactions-pismo-challenge.jar
+ADD ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]

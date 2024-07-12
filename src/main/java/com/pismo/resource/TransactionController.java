@@ -1,6 +1,7 @@
 package com.pismo.resource;
 
 import com.pismo.resource.dto.TransactionDTO;
+import com.pismo.resource.exception.PismoException;
 import com.pismo.service.TransactionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -29,7 +30,7 @@ public class TransactionController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Account found")})
     @PostMapping
-    public ResponseEntity<Object> newtransactions(@RequestBody TransactionDTO transactionDTO) {
+    public ResponseEntity<Object> newtransactions(@RequestBody TransactionDTO transactionDTO) throws PismoException {
         transactionService.save(transactionDTO);
         return ResponseEntity.ok().build();
     }
