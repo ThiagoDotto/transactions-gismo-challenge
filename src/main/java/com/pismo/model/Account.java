@@ -2,6 +2,7 @@ package com.pismo.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Getter
@@ -18,7 +19,8 @@ public class Account {
     @Column(name = "account_id")
     private Integer id;
 
-    @JsonProperty("document_number")
+
+    @NotNull(message = "documentNumber não pode ser null")
     @Column(name = "document_number", nullable = false, unique = true)
     private Long documentNumber;
 
