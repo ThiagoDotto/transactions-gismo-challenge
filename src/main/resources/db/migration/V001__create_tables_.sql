@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS transaction
     CONSTRAINT fk_operation foreign key (operation_id) references operation (operation_id)
 );
 
-insert into operation (description) VALUES ('COMPRA A AVISTA');
+insert into operation (description) VALUES ('COMPRA A VISTA');
 insert into operation (description) VALUES ('COMPRA PARCELADA');
 insert into operation (description) VALUES ('SAQUE');
 insert into operation (description) VALUES ('PAGAMENTO');

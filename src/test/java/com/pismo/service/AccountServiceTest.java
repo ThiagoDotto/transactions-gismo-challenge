@@ -5,21 +5,22 @@ import com.pismo.model.Account;
 import com.pismo.resource.exception.BusinessError;
 import com.pismo.resource.exception.PismoException;
 import com.pismo.service.mapper.AccountMapper;
-import com.pismo.service.repository.AccountRepository;
+import com.pismo.repository.AccountRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-
+@ActiveProfiles("test")
 class AccountServiceTest {
 
     @Mock
@@ -38,7 +39,6 @@ class AccountServiceTest {
 
     @Test
     void shouldSaveAccount() throws PismoException {
-
         AccountDTO accountDTO = new AccountDTO(1234567890L);
 
         when(accountMapper.toAccount(any())).thenReturn(new Account());
@@ -47,7 +47,6 @@ class AccountServiceTest {
 
         verify(accountRepository, times(1)).save(any());
         verify(accountMapper, times(1)).toAccount(any());
-
     }
 
     @Test
@@ -88,13 +87,6 @@ class AccountServiceTest {
         notExistingAccount.setDocumentNumber(1234567890L);
 
         when(accountRepository.findById(id)).thenReturn(Optional.empty());
-
-//        IllegalArgumentException illegalArgumentException = assertThrows(
-//                IllegalArgumentException.class,
-//                () -> accountService.getAccount(id),
-//                "Não encontrado!"
-//        );
-//        assertTrue(illegalArgumentException.getMessage().contains("Não encontrado!"));
 
         Optional<Account> account = accountService.getAccount(id);
 

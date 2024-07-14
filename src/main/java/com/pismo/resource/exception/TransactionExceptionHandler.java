@@ -1,5 +1,7 @@
 package com.pismo.resource.exception;
 
+import com.pismo.resource.exception.apierror.ApiError;
+import com.pismo.resource.exception.apierror.ApiErrorItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.DefaultMessageSourceResolvable;

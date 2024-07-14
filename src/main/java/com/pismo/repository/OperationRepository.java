@@ -1,4 +1,4 @@
-package com.pismo.service.repository;
+package com.pismo.repository;
 
 import com.pismo.model.Operation;
 import org.springframework.data.jpa.repository.JpaRepository;

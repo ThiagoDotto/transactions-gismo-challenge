@@ -3,7 +3,7 @@ package com.pismo.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -18,7 +18,6 @@ import java.time.LocalDateTime;
 @Table(name = "Transaction")
 public class Transaction {
 
-    // TODO: verificar se for um seguence como fica
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "transaction_id", columnDefinition = "SERIAL")
@@ -34,11 +33,11 @@ public class Transaction {
 
     @ManyToOne
     @JoinColumn(name = "operation_id",referencedColumnName = "operation_id", nullable = false)
+    @NotNull(message = "Campo Operação obrigatório")
     private Operation operation;
 
-    @CreatedDate
+    @CreationTimestamp
     @Column(name = "eventdate", columnDefinition = "TIMESTAMP")
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime eventDate = LocalDateTime.now();
+    private LocalDateTime eventDate ;
 
 }

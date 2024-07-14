@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @Tag(name = "Transaction")
 @RestController
 @RequestMapping("/transactions")
@@ -30,7 +32,7 @@ public class TransactionController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Account found")})
     @PostMapping
-    public ResponseEntity<Object> newtransactions(@RequestBody TransactionDTO transactionDTO) throws PismoException {
+    public ResponseEntity<Object> newtransactions(@Valid @RequestBody TransactionDTO transactionDTO) throws PismoException {
         transactionService.save(transactionDTO);
         return ResponseEntity.ok().build();
     }

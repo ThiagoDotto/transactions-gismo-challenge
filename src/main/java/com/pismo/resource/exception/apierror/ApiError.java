@@ -1,5 +1,7 @@
-package com.pismo.resource.exception;
+package com.pismo.resource.exception.apierror;
 
+import com.pismo.resource.exception.PismoException;
+import com.pismo.resource.exception.PismoUtilError;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 
@@ -52,17 +54,6 @@ public final class ApiError {
     public static ApiError createBeanValidationError(List<ApiErrorItem> errosItens) {
         ApiError apiError = createDefaultApiValidationError();
         apiError.getArguments().addAll(errosItens);
-        return apiError;
-    }
-
-    /**
-     * @deprecated Use {@link ApiError#createError(HydraException)} instead.
-     */
-    @Deprecated
-    public static ApiError createBadRequest(PismoException pismoException) {
-        ApiError apiError = createDefaultApiValidationError();
-        PismoUtilError pismoUtilError = pismoException.getPismoUtilError();
-        apiError.getArguments().add(new ApiErrorItem(pismoUtilError.getErrorCode(), pismoException.getMessage(), "", new Date().getTime()));
         return apiError;
     }
 

@@ -6,15 +6,12 @@ import com.pismo.model.Operation;
 import com.pismo.model.Transaction;
 import com.pismo.resource.exception.BusinessError;
 import com.pismo.resource.exception.PismoException;
-import com.pismo.service.repository.AccountRepository;
-import com.pismo.service.repository.OperationRepository;
-import com.pismo.service.repository.TransactionRepository;
+import com.pismo.repository.AccountRepository;
+import com.pismo.repository.OperationRepository;
+import com.pismo.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service

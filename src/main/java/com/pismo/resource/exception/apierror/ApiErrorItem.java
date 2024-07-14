@@ -1,4 +1,4 @@
-package com.pismo.resource.exception;
+package com.pismo.resource.exception.apierror;
 
 import java.util.Date;
 

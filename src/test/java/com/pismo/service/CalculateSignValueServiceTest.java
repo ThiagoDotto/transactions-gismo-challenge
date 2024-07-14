@@ -6,11 +6,12 @@ import com.pismo.resource.exception.PismoException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
+@ActiveProfiles("test")
 class CalculateSignValueServiceTest {
 
     Operation operation;
@@ -25,7 +26,7 @@ class CalculateSignValueServiceTest {
     void shouldBePositiveSignForPayment() throws PismoException {
 
         operation.setOperationType(OperationType.PAGAMENTO.name());
-        BigDecimal result = CalculateSignValueService.exec(operation, (new BigDecimal("100.00")));
+        BigDecimal result = CalculateSignValueService.exec(operation, new BigDecimal("100.00"));
 
         assertEquals(new BigDecimal("100.00"), result);
     }
@@ -34,7 +35,7 @@ class CalculateSignValueServiceTest {
     @Test
     void shouldBeNegativeSignForAnyOperationDiferentOfPayment() throws PismoException {
 
-        operation.setOperationType(OperationType.COMPRA_A_VISTA.name());
+        operation.setOperationType(OperationType.COMPRA_A_VISTA.getName());
         BigDecimal result = CalculateSignValueService.exec(operation, new BigDecimal("100.00"));
 
         assertEquals(new BigDecimal("-100.00"), result);

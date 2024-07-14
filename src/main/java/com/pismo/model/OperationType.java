@@ -13,6 +13,7 @@ public enum OperationType {
     SAQUE("SAQUE", -1),
     PAGAMENTO("PAGAMENTO", 1);
 
+    @Getter
     private final String name;
 
     @Getter
@@ -25,7 +26,7 @@ public enum OperationType {
 
     public static OperationType getOperationType(String name) throws PismoException {
         return Stream.of(OperationType.values())
-                .filter(x -> x.name().equals(name))
+                .filter(x -> x.name.equals(name))
                 .findFirst().orElseThrow(()->new PismoException(BusinessError.OPERACAO_NAO_ENCONTRADA));
     }
 }

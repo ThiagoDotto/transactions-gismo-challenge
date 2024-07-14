@@ -5,9 +5,9 @@ import com.pismo.model.Account;
 import com.pismo.model.Operation;
 import com.pismo.model.OperationType;
 import com.pismo.model.Transaction;
-import com.pismo.service.repository.AccountRepository;
-import com.pismo.service.repository.OperationRepository;
-import com.pismo.service.repository.TransactionRepository;
+import com.pismo.repository.AccountRepository;
+import com.pismo.repository.OperationRepository;
+import com.pismo.repository.TransactionRepository;
 import jakarta.validation.ConstraintViolationException;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeEach;
@@ -78,6 +78,23 @@ class TransactionIntegrationTest {
     void shouldNotSaveTransactionWhithoutAccount() {
         Transaction transaction = new Transaction();
         transaction.setAccount(null);
+        ConstraintViolationException constraintViolationException =
+                assertThrows(ConstraintViolationException.class, () -> {
+                    transactionRepository.save(transaction);
+                });
+
+        assertNotNull(constraintViolationException);
+    }
+
+    @Test
+    void shouldNotSaveTransactionWhithoutOperation() {
+        Account account = new Account();
+        account.setId(1);
+
+        Transaction transaction = new Transaction();
+        transaction.setAccount(account);
+        transaction.setOperation(null);
+
         ConstraintViolationException constraintViolationException =
                 assertThrows(ConstraintViolationException.class, () -> {
                     transactionRepository.save(transaction);

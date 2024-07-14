@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @OpenAPIDefinition(info = @Info(title = "Pismo API"))
@@ -37,7 +38,7 @@ public class AccountController {
                             schema = @Schema(implementation = AccountDTO.class))})
     })
     @PostMapping("/accounts")
-    public ResponseEntity<String> creatAccount(@RequestBody AccountDTO accountDTO) throws PismoException {
+    public ResponseEntity<String> creatAccount(@Valid @RequestBody AccountDTO accountDTO) throws PismoException {
         accountService.save(accountDTO);
         return ResponseEntity.ok().build();
     }
