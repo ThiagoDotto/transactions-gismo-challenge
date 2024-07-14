@@ -18,7 +18,7 @@ This REST application was created to manage Accounts and Transactions.
 To get started with the project, clone the repository:
 
 ```shell
-git clone https://github.com/ThiagoDotto/transactions-gismo-challenge
+git clone https://github.com/ThiagoDotto/transactions-pismo-challenge
 ```
 
 ## Running with Docker
