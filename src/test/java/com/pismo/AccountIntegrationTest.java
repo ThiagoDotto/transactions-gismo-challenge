@@ -1,4 +1,4 @@
-package com.pismo.service;
+package com.pismo;
 
 
 import com.pismo.model.Account;
